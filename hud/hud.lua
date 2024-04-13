@@ -16,7 +16,7 @@ local x, y = (screenWidth / 1980), (screenHeight / 1080) -- Współczynniki skal
 
 local hudVisible = true
 
--- Funkcja formatuj�ca liczby
+-- Funkcja formatująca liczby
 local function formatNumber(number)
     local formattedNumber = tostring(number)
     local formattedString = ""
@@ -38,7 +38,7 @@ function drawHUD()
     local playerSrp = getElementData(player, "player:reputation") or 0
     local playerHealth = getElementHealth(player)
     local playerMoney = getPlayerMoney(player)
-    local formattedMoney = formatNumber(playerMoney) -- Formatowanie ilo�ci pieni�dzy
+    local formattedMoney = formatNumber(playerMoney) -- Formatowanie ilości pieniędzy
 
     dxDrawRectangle(screenWidth - (200 * x), 0, 200 * x, 15 * y, tocolor(255, 0, 0, 150)) -- Pasek HP czerwony
 
