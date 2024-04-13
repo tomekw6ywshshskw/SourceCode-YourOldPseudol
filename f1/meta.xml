@@ -1,0 +1,4 @@
+<meta>
+    <info author="MlodyHill" version="1.0" type="script" description="PanelInformacji"/>
+    <script src="panel.lua" type="client"/>
+</meta>
