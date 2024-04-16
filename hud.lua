@@ -1,6 +1,6 @@
 --[[
 autor:TwojStary(mlody hill)
-w raie problemów pisz mlody.hill@interia.pl
+w raie problemÃ³w pisz mlody.hill@interia.pl
 --]]
 local components = { "weapon", "ammo", "health", "clock", "money", "breath", "armour", "wanted" }
 addEventHandler("onClientResourceStart", getResourceRootElement(getThisResource()),
@@ -11,11 +11,10 @@ function ()
 end)
 
 local screenWidth, screenHeight = guiGetScreenSize()
-local x, y = (screenWidth / 1980), (screenHeight / 1080) -- Wspó³czynniki skalowania
+local x, y = (screenWidth / 1980), (screenHeight / 1080) -- WspÃ³Å‚czynniki skalowania
 
 local hudVisible = true
 
--- Funkcja formatuj¹ca liczby
 local function formatNumber(number)
     local formattedNumber = tostring(number)
     local formattedString = ""
@@ -33,16 +32,20 @@ function drawHUD()
     local player = getLocalPlayer()
     if not player then return end
 
-    local playerName = getPlayerName(player)
+
     local playerSrp = getElementData(player, "player:reputation") or 0
-    local playerHealth = getElementHealth(player)
     local playerMoney = getPlayerMoney(player)
-    local formattedMoney = formatNumber(playerMoney) -- Formatowanie iloœci pieniêdzy
+    local formattedMoney = formatNumber(playerMoney) -- Formatowanie iloÅ›ci pieniÄ™dzy
+    local playerName = getPlayerName(player)
+    local plainPlayerName = playerName:gsub("#%x%x%x%x%x%x", "")
+    local maxHealth = 100 -- maksymalne zdrowie gracza
+    local playerHealth = getElementHealth(player)
+    local healthPercentage = playerHealth / maxHealth
+    local barWidth = 200 * x * healthPercentage -- szerokoÅ›Ä‡ paska HP zaleÅ¼na od procentu zdrowia
 
-    dxDrawRectangle(screenWidth - (200 * x), 0, 200 * x, 15 * y, tocolor(255, 0, 0, 150)) -- Pasek HP czerwony
-
-    dxDrawText("Nick: " .. playerName .. " | SRP: " .. playerSrp, screenWidth - (190 * x), 20 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
-    dxDrawText("$:" .. formattedMoney, screenWidth - (190 * x), 40 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
+  dxDrawRectangle(screenWidth - (200 * x), 0, barWidth, 15 * y, tocolor(255, 0, 0, 150)) -- Pasek HP czerwony
+  dxDrawText("Nick: " .. plainPlayerName .. " | SRP: " .. playerSrp, screenWidth - (190 * x), 20 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
+  dxDrawText("$:" .. formattedMoney, screenWidth - (190 * x), 40 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
 end
 
 local function toggleHUD(key, state)
