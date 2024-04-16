@@ -45,7 +45,7 @@ function drawHUD()
 
   dxDrawRectangle(screenWidth - (200 * x), 0, barWidth, 15 * y, tocolor(255, 0, 0, 150)) -- Pasek HP czerwony
   dxDrawText("Nick: " .. plainPlayerName .. " | SRP: " .. playerSrp, screenWidth - (190 * x), 20 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
-  dxDrawText("$:" .. formattedMoney, screenWidth - (190 * x), 40 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
+  dxDrawText("$ " .. formattedMoney, screenWidth - (190 * x), 40 * y, screenWidth, screenHeight, tocolor(255, 255, 255), 1, "default-bold", "left", "top")
 end
 
 local function toggleHUD(key, state)
