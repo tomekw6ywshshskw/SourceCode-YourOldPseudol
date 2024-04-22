@@ -1,0 +1,24 @@
+local screenWidth, screenHeight = guiGetScreenSize()
+
+local panelVisible = false
+local text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu."
+local naglowek1 = "Lorem ipsum "
+
+local function drawPanel()
+    dxDrawRectangle(screenWidth/2 - 400, screenHeight/2 - 300, 800, 600, tocolor(0, 0, 0, 150))
+    dxDrawText(naglowek1, screenWidth/2 - 65, screenHeight/2 - 280, screenWidth/2 + 65, screenHeight/2 + 280, tocolor(255, 255, 255), 1, "default", "left", "top", true, true)
+    dxDrawText(text, screenWidth/2 - 380, screenHeight/2 - 250, screenWidth/2 + 380, screenHeight/2 + 250, tocolor(255, 255, 255), 1, "default", "left", "top", true, true)
+   end
+
+
+local function togglePanel(key, state)
+    if key == "F1" and state == "down" then
+        panelVisible = not panelVisible
+        if panelVisible then
+            addEventHandler("onClientRender", root, drawPanel)
+        else
+            removeEventHandler("onClientRender", root, drawPanel)
+        end
+    end
+end
+bindKey("F1", "down", togglePanel)
