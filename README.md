@@ -15,9 +15,14 @@ i używając jej w sposob
 tabela:function()
 ```
 
-jesteśmy w stanie uzywac self, a self jest odwołaniem do obecnej tabeli, oczywiście mozemy wywolac funkcje w sposób:
+jesteśmy w stanie uzywac self, a self jest odwołaniem do obecnie uzywanej tabeli, oczywiście mozemy wywolac funkcje w sposób:
 
 ```lua
 tabela.funkcja()
 ```
-ale musimy dac w parametrach wtedy nasza tabele.
+
+ale musimy dac w parametrach wtedy nasza tabele..
+
+```lua
+tabela.function(tabela)
+```
