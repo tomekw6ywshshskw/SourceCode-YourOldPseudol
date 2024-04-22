@@ -1,24 +1,43 @@
-local screenWidth, screenHeight = guiGetScreenSize()
+local InfoPanel = {}
+local settings = {
+  title = "Co znajdziemy na serwerze?",
+  description = [[ swirki bajerki ]],
+}
 
-local panelVisible = false
-local text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu purus sit amet elit tincidunt eleifend quis ac turpis. Phasellus sodales iaculis sem, nec vehicula magna accumsan nec. Nunc blandit tellus enim, blandit vestibulum dui fringilla in. Mauris a bibendum lorem, in elementum augue. Donec lacinia felis libero, sit amet fermentum mi congue quis. Integer consequat, elit id tristique imperdiet, dolor tellus imperdiet orci, eget sollicitudin mauris velit mattis lorem. Aenean malesuada nunc a elit semper laoreet. Ut scelerisque sem a libero feugiat, quis tincidunt elit pharetra. Suspendisse tristique et neque sit amet auctor. Phasellus eget erat tellus. Donec tincidunt rhoncus magna, eget rhoncus est dapibus maximus. Cras luctus vehicula odio, non tincidunt sapien imperdiet eu."
-local naglowek1 = "Lorem ipsum "
-
-local function drawPanel()
-    dxDrawRectangle(screenWidth/2 - 400, screenHeight/2 - 300, 800, 600, tocolor(0, 0, 0, 150))
-    dxDrawText(naglowek1, screenWidth/2 - 65, screenHeight/2 - 280, screenWidth/2 + 65, screenHeight/2 + 280, tocolor(255, 255, 255), 1, "default", "left", "top", true, true)
-    dxDrawText(text, screenWidth/2 - 380, screenHeight/2 - 250, screenWidth/2 + 380, screenHeight/2 + 250, tocolor(255, 255, 255), 1, "default", "left", "top", true, true)
-   end
-
-
-local function togglePanel(key, state)
-    if key == "F1" and state == "down" then
-        panelVisible = not panelVisible
-        if panelVisible then
-            addEventHandler("onClientRender", root, drawPanel)
-        else
-            removeEventHandler("onClientRender", root, drawPanel)
-        end
-    end
+function InfoPanel:init()
+  self.scr = Vector2(guiGetScreenSize())
+  self.w = 800
+  self.h = 600
+  self.x = self.scr.x/2-self.w/2
+  self.y = self.scr.y/2-self.h/2
+  self.open = false
+  
+  self.func = {}
+  self.func.render = function() self:draw() end
+  self.func.key = function(...) self:onKey(...) end
+  
+  addEventHandler("onClientKey",root,self.func.key)
+  return true
 end
-bindKey("F1", "down", togglePanel)
+
+function InfoPanel:draw()
+  dxDrawRectangle(self.x,self.y,self.w,self.h,tocolor(0,0,0,150))
+  dxDrawText(settings.title,self.x,self.y,self.x+self.w,self.y+self.h,white,1,"default","center","top")
+  dxDrawText(settings.description,self.x,self.y,self.x+self.w,self.y+self.h,white,1,"default","center","center")
+end
+
+function InfoPanel:onKey(...)
+  local button = arg[1]
+  local state = arg[2]
+  if button ~= "f1" then return end
+  if not state then return end
+  
+  self.open = not self.open
+  if self.open then
+    addEventHandler("onClientRender",root,self.func.render)
+  else
+    removeEventHandler("onClientRender",root,self.func.render)
+  end
+end
+
+InfoPanel:init()
