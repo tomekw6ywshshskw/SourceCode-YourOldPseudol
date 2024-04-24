@@ -1,0 +1,6 @@
+<meta> 
+         <info author="MlodyHill" name="hud" description="prosty hud" version="" type="script"/> 
+         <script src="hud.lua" type="client" cache="false"/> 
+  
+         <export function="showHUD" type="client" /> 
+ </meta>
