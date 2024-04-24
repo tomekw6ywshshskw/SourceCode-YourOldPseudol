@@ -1,4 +1,32 @@
-```
+CREATE TABLE OCR_admini (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    SERIAL TEXT NOT NULL,
+    RANK TEXT NOT NULL,
+    JOINDATE DATETIME NOT NULL
+);
+
+CREATE TABLE `OCR_players` (
+  `id` int(11) NOT NULL,
+  `login` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `money` int(11) NOT NULL DEFAULT 0,
+  `bank_money` bigint(20) NOT NULL DEFAULT 0,
+  `skin` int(11) NOT NULL DEFAULT 0,
+  `weave` int(11) NOT NULL DEFAULT 50,
+  `ocrPoints` int(11) NOT NULL DEFAULT 0,
+  `category` TEXT NOT NULL DEFAULT '0,0,0', 
+  `worker` int(11) NOT NULL DEFAULT 0,
+  `hours` int(12) NOT NULL,
+  `mandate` int(10) NOT NULL DEFAULT 0,
+  `registered` timestamp NOT NULL DEFAULT current_timestamp(),
+  `register_serial` varchar(120) DEFAULT NULL,
+  `jail` tinyint(1) NOT NULL DEFAULT 0,
+  `keys` INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_unique` (`login`),
+  KEY `login_index` (`login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `OCR_cars` (
   `id` int(11) NOT NULL,
   `model` int(11) NOT NULL DEFAULT 411,
@@ -21,4 +49,3 @@ CREATE TABLE `OCR_cars` (
   `TuneMech` varchar(255) DEFAULT 'gazZamont 0, nitro 0, silnik 1.6',
   `Fuel` varchar(255) DEFAULT 'PB 0, LPG 0, ON 0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-```
