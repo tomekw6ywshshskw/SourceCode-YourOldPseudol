@@ -1,8 +1,8 @@
 CREATE TABLE OCR_admini (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    SERIAL TEXT NOT NULL,
-    RANK TEXT NOT NULL,
-    JOINDATE DATETIME NOT NULL
+    `ID` INT AUTO_INCREMENT PRIMARY KEY,
+    `SERIAL` TEXT NOT NULL,
+    `RANK` TEXT NOT NULL,
+    `JOINDATE` DATETIME NOT NULL
 );
 
 CREATE TABLE `OCR_players` (
@@ -52,9 +52,119 @@ CREATE TABLE `OCR_cars` (
 
 
 CREATE TABLE OCR_faction (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    SERIAL TEXT NOT NULL,
-    RANK TEXT NOT NULL,
-    FACTION TEXT NOT NULL DEAFULT,
+    `ID` INT AUTO_INCREMENT PRIMARY KEY,
+    `SERIAL` TEXT NOT NULL,
+    `RANK` TEXT NOT NULL,
+    `FACTION` TEXT NOT NULL DEAFULT,
     JOINDATE DATETIME NOT NULL
 );
+
+CREATE TABLE `ocr_org` (
+  `id` int(11) NOT NULL,
+  `nazwa` text NOT NULL,
+  `TAG` varchar(5) NOT NULL,
+  `liderid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_orgUsers` (
+  `id` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `rank` TEXT NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_office` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `name` text NOT NULL,
+  `spaces` int(11) NOT NULL DEFAULT 5,
+  `maxspaces` int(11) NOT NULL DEFAULT 0,
+  `ocrPoints` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_punish` (
+  `kolejnosc` int(11) NOT NULL,
+  `serial` text NOT NULL,
+  `reason` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `type` text NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+CREATE TABLE `ocr_punish_logs` (
+  `serial` varchar(24) NOT NULL COMMENT 'serial na jaki kara zostala nadana',
+  `type` varchar(15) NOT NULL COMMENT 'typ kary',
+  `date` datetime NOT NULL COMMENT 'data do ktorej ta kara wystepowala',
+  `date_punish` datetime NOT NULL COMMENT 'Data nadania kary',
+  `uid_get_punish` int(10) NOT NULL COMMENT 'Uid ktore dostalo kare',
+  `reason` varchar(41) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'powod kary'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_logs` (
+  `name` text CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `osoba` int(11) NOT NULL,
+  `data` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE `ocr_jobs` (
+  `code` varchar(120) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `actived` date NOT NULL,
+  `added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `NULL` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_ban` (
+  `osoba` int(11) NOT NULL,
+  `serial` text NOT NULL,
+  `reason` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
+  `type` text NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_houses` (
+  `osoba` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `position` varchar(64) NOT NULL DEFAULT '0, 0, 0',
+  `cost` int(11) NOT NULL DEFAULT 1000,
+  `owner` text NOT NULL,
+  `position2` varchar(64) NOT NULL DEFAULT '',
+  `payid` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_logs_login` (
+  `name` text CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `serial` varchar(50) NOT NULL,
+  `data` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+CREATE TABLE `ocr_vehicles_parking` (
+  `idparking` int(11) NOT NULL,
+  `idpojazdu` int(20) NOT NULL,
+  `funkcjonariusz` varchar(64) NOT NULL,
+  `rejestracja` varchar(20) NOT NULL,
+  `data` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `powod` varchar(64) NOT NULL,
+  `cena` int(10) NOT NULL DEFAULT 10
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `ocr_interiors` (
+  `id` int(11) NOT NULL,
+  `wejscie` varchar(64) NOT NULL DEFAULT '[ [ 0.0, 0.0, 0.0, 0.0 ] ]',
+  `wyjscie` varchar(64) NOT NULL DEFAULT '[ [ 0.0, 0.0, 0.0, 0.0 ] ]',
+  `interior` smallint(6) NOT NULL DEFAULT 0,
+  `dimension` int(11) NOT NULL DEFAULT 5000,
+  `cost` int(11) NOT NULL DEFAULT 12000,
+  `opis` varchar(64) DEFAULT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `ocr_aj` (
+  `seg` int(11) NOT NULL,
+  `Serial` varchar(128) NOT NULL,
+  `Termin` datetime NOT NULL,
+  `Cela` int(11) NOT NULL COMMENT 'CELA',
+  `Powod` varchar(4092) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
