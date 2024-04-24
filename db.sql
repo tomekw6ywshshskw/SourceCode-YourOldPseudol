@@ -49,3 +49,12 @@ CREATE TABLE `OCR_cars` (
   `TuneMech` varchar(255) DEFAULT 'gazZamont 0, nitro 0, silnik 1.6',
   `Fuel` varchar(255) DEFAULT 'PB 0, LPG 0, ON 0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+CREATE TABLE OCR_faction (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    SERIAL TEXT NOT NULL,
+    RANK TEXT NOT NULL,
+    FACTION TEXT NOT NULL DEAFULT,
+    JOINDATE DATETIME NOT NULL
+);
