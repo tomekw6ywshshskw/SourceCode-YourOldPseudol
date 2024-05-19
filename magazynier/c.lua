@@ -66,10 +66,20 @@ addEvent("updateMarkers", true)
 addEventHandler("updateMarkers", root, updateMarkers)
 
 -- Dodanie paczki do rąk gracza
-function attachPackage(player)
+function attachPackage()
+    local player = localPlayer
     if getElementData(player, "hasPackage") then
-        local package = createObject(1550, 0, 0, 0)  -- Przykładowy model paczki
-        attachElements(package, player, 0, 0, 0.5)
+        if not getElementData(player, "packageObject") then
+            local package = createObject(1550, 0, 0, 0)  -- Przykładowy model paczki
+            attachElements(package, player, 0, 0, 0.5)
+            setElementData(player, "packageObject", package)
+        end
+    else
+        if getElementData(player, "packageObject") then
+            local package = getElementData(player, "packageObject")
+            destroyElement(package)
+            setElementData(player, "packageObject", nil)
+        end
     end
 end
-addEventHandler("onClientRender", root, function() attachPackage(localPlayer) end)
+addEventHandler("onClientRender", root, attachPackage)
