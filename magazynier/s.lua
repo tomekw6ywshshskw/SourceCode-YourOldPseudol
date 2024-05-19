@@ -7,13 +7,15 @@ local jobStartBlip = createBlip(950, 1000, 10, 41)
 
 -- Funkcja rozpoczynania pracy
 function startJob(player)
-    triggerClientEvent(player, "showJobGUI", player)
+    if getElementType(player) == "player" then
+        triggerClientEvent(player, "showJobGUI", player)
+    end
 end
 addEventHandler("onMarkerHit", jobStartMarker, startJob)
 
 -- Funkcja uruchamiająca pracę magazyniera
 function initiateWarehouseJob(player)
-    if not getElementData(player, "onWarehouseJob") then
+    if getElementType(player) == "player" and not getElementData(player, "onWarehouseJob") then
         setElementData(player, "onWarehouseJob", true)
         outputChatBox("Rozpocząłeś pracę magazyniera! Odbierz paczkę z wyznaczonego miejsca.", player)
 
@@ -28,32 +30,34 @@ addEvent("startWarehouseJob", true)
 addEventHandler("startWarehouseJob", root, initiateWarehouseJob)
 
 -- Funkcja przydzielania paczki
-function givePackage(player)
-    if getElementType(player) == "player" and getElementData(player, "onWarehouseJob") and not getElementData(player, "hasPackage") then
-        setElementData(player, "hasPackage", true)
-        outputChatBox("Odebrałeś paczkę! Dostarcz ją do wyznaczonego miejsca.", player)
+function givePackage(hitElement)
+    if getElementType(hitElement) == "player" and getElementData(hitElement, "onWarehouseJob") and not getElementData(hitElement, "hasPackage") then
+        setElementData(hitElement, "hasPackage", true)
+        outputChatBox("Odebrałeś paczkę! Dostarcz ją do wyznaczonego miejsca.", hitElement)
 
         deliveryMarker = createMarker(1020, 1000, 10, "cylinder", 2.0, 0, 0, 255, 150)
         addEventHandler("onMarkerHit", deliveryMarker, deliverPackage)
-        triggerClientEvent(player, "updateMarkers", player, "delivery")
+        triggerClientEvent(hitElement, "updateMarkers", hitElement, "delivery")
     end
 end
 
 -- Funkcja dostarczania paczki
-function deliverPackage(player)
-    if getElementType(player) == "player" and getElementData(player, "hasPackage") then
-        setElementData(player, "hasPackage", false)
-        givePlayerMoney(player, 500)
-        outputChatBox("Dostarczyłeś paczkę i otrzymałeś $500!", player)
+function deliverPackage(hitElement)
+    if getElementType(hitElement) == "player" and getElementData(hitElement, "hasPackage") then
+        setElementData(hitElement, "hasPackage", false)
+        givePlayerMoney(hitElement, 500)
+        outputChatBox("Dostarczyłeś paczkę i otrzymałeś $500!", hitElement)
 
-        destroyElement(deliveryMarker)
-        triggerClientEvent(player, "updateMarkers", player, "none")
+        if isElement(deliveryMarker) then
+            destroyElement(deliveryMarker)
+        end
+        triggerClientEvent(hitElement, "updateMarkers", hitElement, "none")
     end
 end
 
 -- Funkcja kończenia pracy
 function endJob(player)
-    if getElementData(player, "onWarehouseJob") then
+    if getElementType(player) == "player" and getElementData(player, "onWarehouseJob") then
         setElementData(player, "onWarehouseJob", false)
         setElementData(player, "hasPackage", false)
         outputChatBox("Zakończyłeś pracę magazyniera.", player)
