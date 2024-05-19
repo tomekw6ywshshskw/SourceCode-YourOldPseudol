@@ -47,6 +47,9 @@ addEventHandler("onClientClick", root, onClick)
 -- Aktualizacja markerów
 function updateMarkers(stage)
     if stage == "pickup" then
+        if isElement(deliveryBlip) then
+            destroyElement(deliveryBlip)
+        end
         pickupBlip = createBlip(1000, 1000, 10, 41)
     elseif stage == "delivery" then
         if isElement(pickupBlip) then
