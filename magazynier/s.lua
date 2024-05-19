@@ -14,8 +14,9 @@ end
 addEventHandler("onMarkerHit", jobStartMarker, startJob)
 
 -- Funkcja uruchamiająca pracę magazyniera
-function initiateWarehouseJob(player)
-    if getElementType(player) == "player" and not getElementData(player, "onWarehouseJob") then
+function initiateWarehouseJob()
+    local player = client  -- Używamy 'client', ponieważ jest to event wywołany przez klienta
+    if not getElementData(player, "onWarehouseJob") then
         setElementData(player, "onWarehouseJob", true)
         outputChatBox("Rozpocząłeś pracę magazyniera! Odbierz paczkę z wyznaczonego miejsca.", player)
 
@@ -56,8 +57,9 @@ function deliverPackage(hitElement)
 end
 
 -- Funkcja kończenia pracy
-function endJob(player)
-    if getElementType(player) == "player" and getElementData(player, "onWarehouseJob") then
+function endJob()
+    local player = client  -- Używamy 'client', ponieważ jest to event wywołany przez klienta
+    if getElementData(player, "onWarehouseJob") then
         setElementData(player, "onWarehouseJob", false)
         setElementData(player, "hasPackage", false)
         outputChatBox("Zakończyłeś pracę magazyniera.", player)
