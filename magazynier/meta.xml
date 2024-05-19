@@ -1,0 +1,6 @@
+<meta>
+	<info author="Tomasz Rzepka" name="magazynier" description="praca dorywcza" version="1.0" type="script"/>
+
+	<script src="s.lua" type="server" cache="false"/>
+	<script src="c.lua" type="client" cache="false"/>
+</meta>
