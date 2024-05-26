@@ -1,20 +1,20 @@
--- Lista autoryzowanych funkcji i ich wywołań
-local authorizedFunctions = {
-    ["givePlayerMoney"] = true,
-    ["setElementHealth"] = true,
-    -- Dodaj tutaj inne funkcje, które mają być autoryzowane
+
+local authorizedScripts = {
+    ["NazwaSkryptu"] = true,
 }
 
--- Funkcja sprawdzająca, czy wywołanie funkcji jest autoryzowane
-local function isFunctionAuthorized(funcName)
-    return authorizedFunctions[funcName] ~= nil
+local function isScriptAuthorized(scriptName)
+    return authorizedScripts[scriptName] ~= nil
 end
 
--- Nadpisanie funkcji w celu weryfikacji autoryzacji
 local originalGivePlayerMoney = givePlayerMoney
 givePlayerMoney = function(player, amount)
-    if not isFunctionAuthorized("givePlayerMoney") then
-        outputChatBox("Unauthorized function call: givePlayerMoney", player)
+    secureGivePlayerMoney(player, amount, "directCall")
+end
+
+function secureGivePlayerMoney(player, amount, scriptName)
+    if not isScriptAuthorized(scriptName) then
+        outputChatBox("Unauthorized script: " .. scriptName, player)
         cancelEvent()
         return
     end
@@ -23,15 +23,18 @@ end
 
 local originalSetElementHealth = setElementHealth
 setElementHealth = function(element, health)
-    if not isFunctionAuthorized("setElementHealth") then
-        outputChatBox("Unauthorized function call: setElementHealth", element)
+    secureSetElementHealth(element, health, "directCall")
+end
+
+function secureSetElementHealth(element, health, scriptName)
+    if not isScriptAuthorized(scriptName) then
+        outputChatBox("Unauthorized script: " .. scriptName, element)
         cancelEvent()
         return
     end
     originalSetElementHealth(element, health)
 end
 
--- Funkcja sprawdzająca stan gracza
 function checkPlayerState(player)
     local health = getElementHealth(player)
     if health > 100 then
@@ -46,7 +49,6 @@ function checkPlayerState(player)
     end
 end
 
--- Dodanie event handlera monitorującego zmiany stanu gracza
 addEventHandler("onPlayerDamage", getRootElement(), function()
     checkPlayerState(source)
 end)
@@ -55,38 +57,6 @@ addEventHandler("onPlayerMoneyChange", getRootElement(), function()
     checkPlayerState(source)
 end)
 
--- Lista autoryzowanych skryptów
-local authorizedScripts = {
-    ["trustedScript1.lua"] = true,
-    ["trustedScript2.lua"] = true,
-    -- Dodaj tutaj inne autoryzowane skrypty
-}
-
--- Funkcja sprawdzająca, czy skrypt jest autoryzowany
-function isScriptAuthorized(scriptName)
-    return authorizedScripts[scriptName] ~= nil
-end
-
--- Przykład wywołania funkcji z białej listy
-function secureGivePlayerMoney(player, amount, scriptName)
-    if not isScriptAuthorized(scriptName) then
-        outputChatBox("Unauthorized script: " .. scriptName, player)
-        cancelEvent()
-        return
-    end
-    givePlayerMoney(player, amount)
-end
-
-function secureSetElementHealth(element, health, scriptName)
-    if not isScriptAuthorized(scriptName) then
-        outputChatBox("Unauthorized script: " .. scriptName, element)
-        cancelEvent()
-        return
-    end
-    setElementHealth(element, health)
-end
-
--- Obsługa komunikacji z klientem
 addEvent("clientRequestMoney", true)
 addEventHandler("clientRequestMoney", resourceRoot, function(amount)
     secureGivePlayerMoney(client, amount, "clientRequest")
