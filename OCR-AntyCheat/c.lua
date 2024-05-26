@@ -1,14 +1,11 @@
--- Funkcja żądająca dodania pieniędzy
 function requestMoney(amount)
     triggerServerEvent("clientRequestMoney", resourceRoot, amount)
 end
 
--- Funkcja żądająca zmiany zdrowia
 function requestHealth(health)
     triggerServerEvent("clientRequestHealth", resourceRoot, health)
 end
 
--- Przykład użycia funkcji żądających
 addCommandHandler("addmoney", function(cmd, amount)
     amount = tonumber(amount)
     if amount then
