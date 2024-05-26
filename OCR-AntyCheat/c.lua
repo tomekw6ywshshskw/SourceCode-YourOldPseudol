@@ -1,3 +1,4 @@
+
 function requestMoney(amount)
     triggerServerEvent("clientRequestMoney", resourceRoot, amount)
 end
