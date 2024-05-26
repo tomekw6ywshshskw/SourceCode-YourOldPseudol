@@ -1,7 +1,8 @@
-
 local authorizedScripts = {
-    ["NazwaSkryptu"] = true,
+    ["nazwa skryptu"] = true,
+    
 }
+
 
 local function isScriptAuthorized(scriptName)
     return authorizedScripts[scriptName] ~= nil
@@ -9,12 +10,8 @@ end
 
 local originalGivePlayerMoney = givePlayerMoney
 givePlayerMoney = function(player, amount)
-    secureGivePlayerMoney(player, amount, "directCall")
-end
-
-function secureGivePlayerMoney(player, amount, scriptName)
-    if not isScriptAuthorized(scriptName) then
-        outputChatBox("Unauthorized script: " .. scriptName, player)
+    if not isScriptAuthorized(sourceResourceName) then
+        outputChatBox("Unauthorized script: " .. sourceResourceName, player)
         cancelEvent()
         return
     end
@@ -23,12 +20,8 @@ end
 
 local originalSetElementHealth = setElementHealth
 setElementHealth = function(element, health)
-    secureSetElementHealth(element, health, "directCall")
-end
-
-function secureSetElementHealth(element, health, scriptName)
-    if not isScriptAuthorized(scriptName) then
-        outputChatBox("Unauthorized script: " .. scriptName, element)
+    if not isScriptAuthorized(sourceResourceName) then
+        outputChatBox("Unauthorized script: " .. sourceResourceName, element)
         cancelEvent()
         return
     end
@@ -49,20 +42,11 @@ function checkPlayerState(player)
     end
 end
 
+
 addEventHandler("onPlayerDamage", getRootElement(), function()
     checkPlayerState(source)
 end)
 
 addEventHandler("onPlayerMoneyChange", getRootElement(), function()
     checkPlayerState(source)
-end)
-
-addEvent("clientRequestMoney", true)
-addEventHandler("clientRequestMoney", resourceRoot, function(amount)
-    secureGivePlayerMoney(client, amount, "clientRequest")
-end)
-
-addEvent("clientRequestHealth", true)
-addEventHandler("clientRequestHealth", resourceRoot, function(health)
-    secureSetElementHealth(client, health, "clientRequest")
 end)
